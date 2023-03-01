@@ -9,13 +9,27 @@ function liner (base, to){
   pop()
 }
 
+function drawArrow(base, vec, myColor) {
+  push();
+  stroke(myColor);
+  strokeWeight(3);
+  fill(myColor);
+  translate(base.x, base.y);
+  line(0, 0, vec.x, vec.y);
+  rotate(vec.heading());
+  let arrowSize = 7;
+  translate(vec.mag() - arrowSize, 0);
+  triangle(0, arrowSize / 2, 0, -arrowSize / 2, arrowSize, 0);
+  pop();
+}
+
 function setup() {
   createCanvas(windowWidth, windowHeight);
   background(50,100,100);
   strokeWeight(10);
   stroke(255,150)
-
-  //angleMode(DEGREES);
+  
+  angleMode(DEGREES);
 
   let roofSpine = Array.from({length: 6}, () => createVector(50,50));
 
@@ -25,27 +39,68 @@ function setup() {
   roofSpine[0] = firstVec;
 
   push() //first vector
-    translate(width/2, 0)
+    //translate(width/2, 0)
     //line(baseVec.x, baseVec.y, firstVec.x, firstVec.y)
   pop()
 
   push(); //Static vectors
 
-    let v1 = createVector(50,50)
-    let v2 = createVector(500,400);
-    let v3 = createVector(450, 50);
+    let v1 = createVector(0,0)
+    let v2 = createVector(0,180);
+    let v3 = createVector(90,-100);
 
-    liner(v1,v2)
-    liner(v2,v3)
+    let angleBet = v2.angleBetween(v3);
 
-    stroke('purple')
-    strokeWeight(3)
+    drawArrow(v1,v2,'orange')
+    drawArrow(v2,v3, 'white')
 
-    let chunky = 50;
+    console.log(`v2: ${v2.heading()} v3: ${v3.heading()}`)
+    let adding = v2.heading() + v3.heading();
 
-    let added = v3.add(v2)
-    console.log(added)
-    liner(added, v1)
+    console.log(`added: ${adding}`)
+    console.log(`anglebet: ${angleBet}`)
+
+
+    let go = createVector(1,1);
+    go.setHeading(angleBet/2)
+    // go.setHeading(-adding/HALF_PI); //Div by PI or 2 or HAFL_PI or TWO_PI?!
+    //IF over certain angle, div by ____
+
+    //-90 / 2 = 44.99       : yes
+    //-104 / 2 = -52        : no
+    //-104 / PI = -33       : yes
+    //-116 / PI = -37       : yes
+    //-131 / PI = -42       : no
+    //-131 / 2 = -65        : no
+    //-131 / TWO_PI = -21   : yes
+    //-142 / TWO_PI = -22   : yes
+    //-142 / 2 = -71        : no
+    
+
+    console.log(`NEW ANGLE: ${go.heading()}`)
+    go.mult(100);
+    //angleBet.mult(100)
+    drawArrow(v2, go, 'purple')
+
+    //let added = p5.Vector.fromAngle(adding)
+    //console.log(added, added.heading())
+
+    stroke('red')
+    translate(v2.x, v2.y)
+    //point(added.x, added.y)
+
+    // let newBoy = v1.add(v3)
+    // console.log(newBoy)
+    // liner(v1, newBoy)
+
+    // stroke('purple')
+    // strokeWeight(3)
+
+    // let chunky = 50;
+
+    // let added = v3.add(v2)
+    // console.log(added)
+    // liner(added, v1)
     // let angleFish= v3.angleBetween(v1); 
 
     // let adding = v2.heading() + v3.heading();
