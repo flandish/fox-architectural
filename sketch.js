@@ -44,39 +44,20 @@ function setup() {
   push(); 
     translate(width/2,height/2)
     let v1 = createVector(0,0)
-    let v2 = createVector(10,100);
-    let v3 = createVector(-100,200);
+    let v2 = createVector(100,100);
+    let v3 = createVector(-10,-200);
 
     let angleBet = v2.angleBetween(v3);
-    // let angleBet = v2.dot(v3)
-
-
+  
     drawArrow(v1,v2,'orange')
     drawArrow(v2,v3, 'white')
-
-    // console.log(`v2: ${v2.heading()} v3: ${v3.heading()}`)
-    
-    // console.log(`anglebet: ${angleBet}`)
-
     let go = createVector(1,1);
     console.log(go.heading())
     
     go.setHeading(0);
 
-    // console.log(`NEW ANGLE: ${go.heading()}`)
     go.mult(100);
     drawArrow(v2, go.rotate(v2.heading()+angleBet/2+HALF_PI), 'purple');
-
-    // let added = v3.add(v2);
-    // let addMag = added.mag();
-    // drawArrow(v1, added, 'green')
-
-    // let outerPole = createVector(1,1)
-    // outerPole.mult(25)
-    // outerPole.setHeading(addMag/2);
-
-    // drawArrow(v2, outerPole, 'purple')
-
   pop()
 
   /// --- Dynamic Vectors --- ///
@@ -116,8 +97,8 @@ function setup() {
 
     push() 
       translate(width/2, 0)
-      //drawArrow(baseVec, cVec, 'white') //Rays
-      //drawArrow(pVec, nVec, 'black'); //Path
+      drawArrow(baseVec, cVec, 'white') //Rays
+      drawArrow(pVec, nVec, 'black'); //Path
       //I don't think im drawing the right thing
     pop()
   }
@@ -130,13 +111,13 @@ function setup() {
     let pVec = roofSpine[i-1];
     let cVec = roofSpine[i]; 
 
-    let angleFace = cNVec.angleBetween(pNVec)
+    let angleFace = pNVec.angleBetween(cNVec)
     let outerPole = createVector(1,1)
-    outerPole.setHeading(angleFace)
+    outerPole.setHeading(0)
     outerPole.mult(30)
     push()
     translate(width/2, 0)
-   // drawArrow(pVec, outerPole, 'purple')
+    drawArrow(cVec, outerPole.rotate(pNVec.heading()+angleFace/2+HALF_PI+PI), 'purple')
     pop()
   }
 
