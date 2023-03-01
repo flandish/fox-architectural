@@ -44,15 +44,15 @@ function setup() {
   push(); 
     translate(width/2,height/2)
     let v1 = createVector(0,0)
-    let v2 = createVector(100,80);
-    let v3 = createVector(0,90);
+    let v2 = createVector(10,100);
+    let v3 = createVector(-100,200);
 
     let angleBet = v2.angleBetween(v3);
     // let angleBet = v2.dot(v3)
 
 
     drawArrow(v1,v2,'orange')
-    drawArrow(v1,v3, 'white')
+    drawArrow(v2,v3, 'white')
 
     // console.log(`v2: ${v2.heading()} v3: ${v3.heading()}`)
     
@@ -63,10 +63,9 @@ function setup() {
     
     go.setHeading(0);
 
-
     // console.log(`NEW ANGLE: ${go.heading()}`)
     go.mult(100);
-    drawArrow(v1, go.rotate(v2.heading()+angleBet/2), 'purple');
+    drawArrow(v2, go.rotate(v2.heading()+angleBet/2+HALF_PI), 'purple');
 
     // let added = v3.add(v2);
     // let addMag = added.mag();
@@ -75,7 +74,6 @@ function setup() {
     // let outerPole = createVector(1,1)
     // outerPole.mult(25)
     // outerPole.setHeading(addMag/2);
-
 
     // drawArrow(v2, outerPole, 'purple')
 
