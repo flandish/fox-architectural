@@ -1,6 +1,8 @@
 //  TODO:
-    //  [ ] create angle between nVec, no pVec and cVec.
+    //  [v] create angle between nVec, no pVec and cVec.
     //  [v] invert direction of nVec heading
+    //  [v]  create inverse pole
+    //  []  create connecting lines on the poles
 
 function randomNumber(max) {
   return Math.floor(Math.random() * max);
@@ -52,13 +54,19 @@ function setup() {
     drawArrow(v1,v2,'orange')
     drawArrow(v2,v3, 'white')
     let go = createVector(1,1);
-    console.log(go.heading())
-    
-    go.setHeading(0);
+    let go2 = createVector(1,1);
 
-    go.mult(100);
+    console.log(go.heading())
+    console.log(angleBet)
+    
+    go.mult(70);
+    go2.mult(70);
+    go.setHeading(0);
+    go2.setHeading(0)
     drawArrow(v2, go.rotate(v2.heading()+angleBet/2+HALF_PI), 'purple');
-  pop()
+    drawArrow(v2, go2.rotate(v2.heading()+angleBet/2+PI+HALF_PI), 'purple');
+
+    pop()
 
   /// --- Dynamic Vectors --- ///
 
@@ -97,13 +105,11 @@ function setup() {
 
     push() 
       translate(width/2, 0)
-      drawArrow(baseVec, cVec, 'white') //Rays
-      drawArrow(pVec, nVec, 'black'); //Path
+      //drawArrow(baseVec, cVec, 'white') //Rays
+      //drawArrow(pVec, nVec, 'black'); //Path
       //I don't think im drawing the right thing
     pop()
   }
-
-  //console.log(path)
 
   for (let i=1; i<path.length || i<roofSpine.length-1; i++){ 
     let pNVec = path[i-1];
@@ -117,10 +123,8 @@ function setup() {
     outerPole.mult(30)
     push()
     translate(width/2, 0)
-    drawArrow(cVec, outerPole.rotate(pNVec.heading()+angleFace/2+HALF_PI+PI), 'purple')
+    //drawArrow(cVec, outerPole.rotate(pNVec.heading()+angleFace/2+HALF_PI+PI), 'purple')
     pop()
   }
-
-
   noLoop();
 }
