@@ -13,12 +13,12 @@ function drawArrow(base, vec, myColor) {
   stroke(myColor);
   strokeWeight(6);
   fill(myColor);
-  //translate(base.x, base.y);
-  line(base.x, base.y, vec.x, vec.y);
-  // rotate(vec.heading());
-  // let arrowSize = 7;
-  // translate(vec.mag() - arrowSize, 0);
-  // triangle(0, arrowSize / 2, 0, -arrowSize / 2, arrowSize, 0);
+  translate(base.x, base.y);
+  line(0, 0, vec.x, vec.y);
+  rotate(vec.heading());
+  let arrowSize = 7;
+  translate(vec.mag() - arrowSize, 0);
+  triangle(0, arrowSize / 2, 0, -arrowSize / 2, arrowSize, 0);
   pop();
 }
 
@@ -93,9 +93,11 @@ function setup() {
 
     push() 
       translate(width/2, 0)
-      drawArrow(pVec, cVec, 'black'); //Path
+      drawArrow(pVec, nVec, 'black'); //Path
       // drawArrow(baseVec, cVec, 'white') //Rays
     pop()
+
+
   }
 
   // Poles
@@ -121,7 +123,7 @@ function setup() {
     push()
     translate(width/2, 0)
     drawArrow(cVec, outerPole.rotate(pNVec.heading()+angleFace/2+HALF_PI+PI), 'lightBlue')
-    drawArrow(cVec, innerPole.rotate(pNVec.heading()+angleFace/2+HALF_PI), 'blue')
+    //drawArrow(cVec, innerPole.rotate(pNVec.heading()+angleFace/2+HALF_PI), 'blue')
     //drawArrow(outerPole, innerPole, 'white')
     pop()
     // console.log(`3: ${outerPole.x}`)
