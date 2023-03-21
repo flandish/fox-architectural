@@ -4,6 +4,8 @@
     //  [v] create inverse pole
     //  []  create connecting lines on the poles
 
+const c = console
+      
 function randomNumber(max) {
   return Math.floor(Math.random() * max);
 }
@@ -13,8 +15,9 @@ function drawArrow(base, vec, myColor) {
   stroke(myColor);
   strokeWeight(6);
   fill(myColor);
-  translate(base.x, base.y);
+  translate(base);
   line(0, 0, vec.x, vec.y);
+  // line(base.x, base.y, vec.x, vec.y);
   rotate(vec.heading());
   let arrowSize = 7;
   translate(vec.mag() - arrowSize, 0);
@@ -96,8 +99,6 @@ function setup() {
       drawArrow(pVec, nVec, 'black'); //Path
       // drawArrow(baseVec, cVec, 'white') //Rays
     pop()
-
-
   }
 
   // Poles
@@ -110,27 +111,43 @@ function setup() {
 
     let angleFace = pNVec.angleBetween(cNVec)
     let outerPole = cVec.copy()
-    let innerPole = cVec.copy()
-    // console.log(`1: ${outerPole.x}`)
+    // let innerPole = cVec.copy()
+    // console.log(`1: ${outerPole}`)
 
-    outerPole.setHeading(0)
-    // console.log(`1.5: ${outerPole.x}`)
-    outerPole.setMag(chunk)
-    // console.log(`2: ${outerPole.x}`)
+    outerPole.setHeading(pNVec.heading()+angleFace/2+HALF_PI+PI)
+    // console.log(`1.5: ${outerPole}`)
+    outerPole.limit(chunk)
+    // console.log(`2: ${outerPole}`)
 
-    innerPole.setHeading(0)
-    innerPole.setMag(chunk)
+    // push()
+    //   translate(width/2,0)
+    //   point(outerPole)
+    // pop()
+
+    // innerPole.setHeading(0)
+    // innerPole.setMag(chunk)
     push()
     translate(width/2, 0)
-    drawArrow(cVec, outerPole.rotate(pNVec.heading()+angleFace/2+HALF_PI+PI), 'lightBlue')
+    drawArrow(cVec, outerPole, 'lightBlue')
+
+    translate(cVec)
+   
+    stroke('red')
+    strokeWeight(10)
+    point(outerPole)
+    // line(0,0,0,0)
+    // vertex(outerPole.x, outerPole.y)0
+    //drawArrow(outerPole,)
+    
     //drawArrow(cVec, innerPole.rotate(pNVec.heading()+angleFace/2+HALF_PI), 'blue')
     //drawArrow(outerPole, innerPole, 'white')
     pop()
-    // console.log(`3: ${outerPole.x}`)
+    // console.log(`3: ${outerPole}`)
     
-     outerWall.push(outerPole)
-     innerWall.push(innerPole)
+    outerWall.push(outerPole)
+    //  innerWall.push(innerPole)
   }
+  console.log(outerWall)
 
   //Connect a line between the poles.
   
@@ -149,9 +166,12 @@ function setup() {
   /////----------///////---------///////
 
   // Walls
-  for (let i=1; i<outerWall.length; i++){
+  for (let i=0; i<outerWall.length || i<roofSpine.length-2; i++){
     let cOuterWall = outerWall[i];
     let pOuterWall = outerWall[i-1];
+    //let outerPole = path[i];
+    let cVec = roofSpine[i+1];
+c.log(cOuterWall)
     // let cInnerWall = innerWall[i];
     // let pInnerWall = innerWall[i-1];
 
@@ -183,6 +203,29 @@ function setup() {
     // pop()
 
     // endShape()
+
+    let nVec = p5.Vector.sub(cOuterWall, pOuterWall); //Path
+    nVec.setHeading(nVec.heading()+PI) // Inverse direction
+
+
+    push()
+      stroke('white')
+      strokeWeight(15)
+
+      translate(width/2,0)
+      translate(cVec)
+      // translate(cOuterWall)
+
+      point(cOuterWall)
+      drawArrow(pOuterWall, nVec, 'white')
+    pop()
+    // push()
+    // translate(width/2,0)
+    // translate(outerWall)
+    // stroke('white')
+    // strokeWeight(12)
+    // point(outerPole)
+    // pop()
   }
 
 
