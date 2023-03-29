@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!-- Load the Paper.js library -->
+<script type="text/javascript" src="https://unpkg.com/acorn"></script>
+<script type="text/javascript" src="paperjs-v0.12.17/dist/paper-full.js"></script>
+<!-- <script type="text/javascript" src="folio.js-master/distribution/paper.folio.min.js"></script> -->
+<!-- <script type="text/javascript" src="paperjs-offset-master/demo/paperjs-offset.min.js"></script> -->
+
+<!-- <script type="text/paperscript" src="sketch.js" canvas="myCanvas"> -->
+<script type="text/paperscript" src="sketch.js" canvas="myCanvas"></script>
+</script>
+
+<style>
+	html,
+	body {
+    height: 100%;
+	background-color: darkcyan;
+	margin: 0;
+	}
+	canvas[resize] {
+		width: 100%;
+		height: 100%;
+	}
+</style>
+
+</head>
+<body>
+	<canvas id="myCanvas" resize></canvas>
+</body>
+</html>

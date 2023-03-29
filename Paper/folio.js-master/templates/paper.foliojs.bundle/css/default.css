@@ -1,0 +1,174 @@
+/**
+* folio.css
+*
+* Ken Frederick
+* ken.frederick@gmx.de
+*
+* http://kennethfrederick.de/
+* http://blog.kennethfrederick.de/
+*
+*
+* This CSS is part of FolioTemplate
+*
+*/
+
+
+body,
+html {
+    margin: 0;
+    padding: 0;
+    font-size: 12px;
+    font-family: helvetica, sans-serif;
+    font-weight: bold;
+    line-height: 15px;
+    letter-spacing: -0.2px;
+    color: #1e140f;
+    overflow: hidden;
+}
+
+a {
+    text-decoration: underline;
+    color: #1e140f;
+}
+a:hover {
+    text-decoration: underline;
+    color: #1e140f;
+}
+
+
+#canvas {
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+}
+
+#rasters {
+    visibility: hidden;
+    pointer-events: none;
+}
+
+#text-container {
+    position: absolute;
+    width: 100%;
+    top: 70px;
+    margin: 0 35px 0 35px;
+    padding: 0px;
+    white-space: nowrap;
+    z-index: 200;
+}
+
+#manual {
+    position: absolute;
+    width: 100%;
+    bottom: 70px;
+    margin: 0 35px 0 35px;
+    padding: 0px;
+    white-space: nowrap;
+    z-index: 200;
+    font-weight: normal;
+    pointer-events: none;
+}
+
+.row {
+    width: 100%;
+    float: left;
+}
+.col {
+    width: 20%;
+    padding-bottom: 6%;
+    float: left;
+}
+
+
+.white {
+    color: #ffffff;
+}
+a.white {
+    color: #ffffff;
+    border-color: #ffffff;
+}
+a:hover.white {
+    color: #ffffff;
+    border-color: #ffffff;
+}
+
+.white-light-gray {
+    color: rgba(255, 255, 255, 0.45);
+}
+a.white-light-gray {
+    color: rgba(255, 255, 255, 0.45);
+    border-color: rgba(255, 255, 255, 0.45);
+}
+a:hover.white-light-gray {
+    color: #e9e8e7;
+    border-color: #e9e8e7;
+}
+
+.white-dark-gray {
+    color: rgba(255, 255, 255, 0.83);
+}
+a.white-dark-gray {
+    color: rgba(255, 255, 255, 0.83);
+    border-color: rgba(255, 255, 255, 0.83);
+}
+a:hover.white-dark-gray {
+    color: #9a9593;
+    border-color: #9a9593;
+}
+
+.black-light-gray {
+    color: rgba(30, 20, 15, 0.1);
+}
+a.black-light-gray {
+    color: rgba(30, 20, 15, 0.1);
+    border-color: rgba(30, 20, 15, 0.1);
+}
+a:hover.black-light-gray {
+    color: #e9e8e7;
+    border-color: #e9e8e7;
+}
+
+.black-dark-gray {
+    color: rgba(30, 20, 15, 0.45);
+}
+a.black-dark-gray {
+    color: rgba(30, 20, 15, 0.45);
+    border-color: rgba(30, 20, 15, 0.45);
+}
+a:hover.black-dark-gray {
+    color: #9a9593;
+    border-color: #9a9593;
+}
+
+.red {
+    color: red;
+}
+a.red {
+    color: red;
+    border-color: red;
+}
+a:hover.red {
+    color: red;
+    border-color: red;
+}
+
+
+
+@media screen and (width: 320px), (height: 480px) {
+    #text-container {
+        visibility: hidden;
+    }
+    #manual {
+        visibility: hidden;
+    }
+}
+
+@media screen and (width: 480px), (height: 320px) {
+    #text-container {
+        visibility: hidden;
+    }
+    #manual {
+        visibility: hidden;
+    }
+}
