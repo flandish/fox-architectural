@@ -23,7 +23,7 @@ let myCircle = new Path.Circle({
     center: view.center,
     radius: 50,
     fillColor:'black',
-    selected: false
+    selected: true
 });
 
 function onMouseDown(event){
