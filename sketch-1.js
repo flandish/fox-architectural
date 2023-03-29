@@ -4,13 +4,112 @@
     //  [v] create inverse pole
     //  []  create connecting lines on the poles
 
+
+class Transform {
+  constructor() {
+    this.origin = { x: 0, y: 0 };
+    this.matrix = [
+      [1, 0, 0],
+      [0, 1, 0],
+      [0, 0, 1]
+    ];
+  }
+    
+    translate(x, y) {
+      this.matrix = matrixMultiply(
+        this.matrix,
+        [
+          [1, 0, x],
+          [0, 1, y],
+          [0, 0, 1]
+        ]
+      );
+      this._updateOrigin();
+    }
+
+    vertex(x, y) {
+      const vect = matrixMultiply(
+        this.matrix,
+        [ [x], [y], [1] ]
+      );
+      
+      vertex(vect[0][0], vect[1][0]);
+    }
+    
+    _updateOrigin() {
+      this.origin = { x: this.matrix[0][2], y: this.matrix[1][2] };
+    }
+  }
+
+
 const c = console
+      
+function randomNumber(max) {
+  return Math.floor(Math.random() * max);
+}
+
+function drawArrow(base, vec, myColor) {
+  //push();
+    stroke(myColor);
+    strokeWeight(6);
+    fill(myColor);
+    // translate(base);
+    // beginShape(LINES)
+    //   vertex(0,0)
+    //   vertex(vec.x,vec.y)
+    // endShape()
+    // line(0, 0, vec.x, vec.y);
+    line(base.x, base.y, vec.x, vec.y);
+    // rotate(vec.heading());
+    // let arrowSize = 7;
+    // translate(vec.mag() - arrowSize, 0);
+    // triangle(0, arrowSize / 2, 0, -arrowSize / 2, arrowSize, 0);
+  //pop();
+}
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
   background(50,100,100);
   strokeWeight(10);
   stroke(255,150)
+  
+{ //Static Vectors (closure to hide in ide)
+  push()
+    //translate(width/2, 0)
+    //drawArrow(baseVec, firstVec, 'white')
+  pop()
+
+  /// --- Static Vectors --- ///
+
+  let baseVec = createVector(0,0)
+
+  push(); 
+    translate(width/2,height/2)
+    let v1 = createVector(0,0)
+    let v2 = createVector(100,100);
+    let v3 = createVector(-10,-200);
+
+    let angleBet = v2.angleBetween(v3);
+  
+    // drawArrow(v1,v2,'orange')
+    // drawArrow(v2,v3, 'white')
+    let go = createVector(1,1);
+    let go2 = createVector(1,1);
+
+    // console.log(go.heading())
+    // console.log(angleBet)
+    
+    go.mult(70);
+    go2.mult(70);
+    go.setHeading(0);
+    go2.setHeading(0)
+    // drawArrow(v2, go.rotate(v2.heading()+angleBet/2+HALF_PI), 'purple');
+    // drawArrow(v2, go2.rotate(v2.heading()+angleBet/2+PI+HALF_PI), 'purple');
+
+    pop()
+}
+
+  // --- Dynamic Vectors -----------------
 
   let house = {
     chunk: 30,
@@ -24,9 +123,8 @@ function setup() {
     innerWalls: []
   }
 
-  house.spine = Array.from({length: 8}, () => createVector(10,10));
-  // house.spine = Array.from({length: 8}, () => p5.Vector.random2D());
-
+  house.spine = Array.from({length: 8}, () => createVector(50,50));
+  
   // First Vector
   let firstVec = createVector(random(-width/2 + 40, -50), random(0, height-200)) //constrained strating range
   house.spine.unshift(firstVec)
@@ -50,74 +148,71 @@ function setup() {
 
     push() 
       translate(width/2,0)
-      beginShape(POINTS)
-        vertex(current)
-      endShape()
-      //drawArrow(previous, current, 'black'); //Path
+      drawArrow(previous, current, 'black'); //Path
     pop()
   }
 
-  // //Poles
-  // for (let i=1; i<house.path.length || i<house.spine.length-1; i++){
-  //   var len = house.path.length
-  //   var current = house.path[i]
-  //   var previous = house.path[(i+len-1)%len]
-  //   var next = house.path[(i+1)%len]
+  //Poles
+  for (let i=1; i<house.path.length || i<house.spine.length-1; i++){
+    var len = house.path.length
+    var current = house.path[i]
+    var previous = house.path[(i+len-1)%len]
+    var next = house.path[(i+1)%len]
 
-  //   var len = house.spine.length
-  //   var currentSpine = house.spine[i]
-  //   var previousSpine = house.spine[(i+len-1)%len]
-  //   var nextSpine = house.spine[(i+1)%len]
+    var len = house.spine.length
+    var currentSpine = house.spine[i]
+    var previousSpine = house.spine[(i+len-1)%len]
+    var nextSpine = house.spine[(i+1)%len]
 
-  //   var angleface = previous.angleBetween(current)
+    var angleface = previous.angleBetween(current)
 
-  //   let outerPole = current.copy()
-  //   outerPole.setHeading(previous.heading()+angleface/2+HALF_PI+PI)
-  //   outerPole.setMag(house.chunk)
+    let outerPole = current.copy()
+    outerPole.setHeading(previous.heading()+angleface/2+HALF_PI+PI)
+    outerPole.setMag(house.chunk)
     
-  //   house.outerPoles.push(outerPole)
+    house.outerPoles.push(outerPole)
 
-  //   push()
-  //     translate(width/2, 0)
-  //     drawArrow(currentSpine, outerPole, 'blue')
-  //   pop()
-  // }
+    push()
+      translate(width/2, 0)
+      drawArrow(currentSpine, outerPole, 'blue')
+    pop()
+  }
 
-  // //walls
-  // for (let i=1; i<house.outerPoles.length || i<house.spine.length-1; i++){
-  //   var len = house.outerPoles.length
-  //   var current = house.outerPoles[i]
-  //   var previous = house.outerPoles[(i+len-1)%len]
-  //   var next = house.outerPoles[(i+1)%len]
+  //walls
+  for (let i=1; i<house.outerPoles.length || i<house.spine.length-1; i++){
+    var len = house.outerPoles.length
+    var current = house.outerPoles[i]
+    var previous = house.outerPoles[(i+len-1)%len]
+    var next = house.outerPoles[(i+1)%len]
 
-  //   var len = house.spine.length
-  //   var currentSpine = house.spine[i]
-  //   var previousSpine = house.spine[(i+len-1)%len]
-  //   var nextSpine = house.spine[(i+1)%len]
+    var len = house.spine.length
+    var currentSpine = house.spine[i]
+    var previousSpine = house.spine[(i+len-1)%len]
+    var nextSpine = house.spine[(i+1)%len]
 
-  //   push()
-  //     translate(width/2, 0)
-  //     translate(currentSpine)
-  //     //point(currentSpine)
-  //     point(0,0)
-  //     translate(previous)
-  //     point(0,0)
-  //     // beginShape(LINES)
-  //     // vertex(0,0)
-  //     // vertex(previous.x, previous.y)
-  //     // endShape()
+    push()
+      translate(width/2, 0)
+      translate(currentSpine)
+      //point(currentSpine)
+      point(0,0)
+      translate(previous)
+      point(0,0)
+      // beginShape(LINES)
+      // vertex(0,0)
+      // vertex(previous.x, previous.y)
+      // endShape()
 
-  //     // vertex, translate, vertex
-  //     // beginShape(LINES)
-  //     //   vertex(0,0)
-  //     //   //translate(current)
-  //     //   vertex(previous.x,previous.y)
-  //     // endShape()
+      // vertex, translate, vertex
+      // beginShape(LINES)
+      //   vertex(0,0)
+      //   //translate(current)
+      //   vertex(previous.x,previous.y)
+      // endShape()
 
-  //     //I want to do something like this
-  //     line('0,0' + translate(current) + '0,0')
+      //I want to do something like this
+      line('0,0' + translate(current) + '0,0')
 
-  //   pop()
+    pop()
   }
 
 
@@ -299,6 +394,8 @@ function setup() {
 //     // point(outerPole)
 //     // pop()
 //   }
+
+}
 
   
 
